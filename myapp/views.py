@@ -169,9 +169,9 @@ def moneyFn(request) :
   #   time.sleep(1)
   #   sys.exit()
 
-  userResultInfo = userResultInfo.to_json(orient='records')
+  data = userResultInfo.to_json(orient='records')
 
-  return JsonResponse(userResultInfo, safe=False)
+  return JsonResponse(data, safe=False)
     
 
 
@@ -196,9 +196,9 @@ def localFn(request) :
   #   sys.exit()
 
   userResultInfo = userResultInfo.drop_duplicates()
-  userResultInfo = userResultInfo.to_json(orient='records')
+  data = userResultInfo.to_json(orient='records')
 
-  return JsonResponse(userResultInfo, safe=False)
+  return JsonResponse(data, safe=False)
 
 
 
@@ -333,14 +333,14 @@ def orderByFn(request) :
   ner_userAnswer = ner(userMsg)
 
   if ner_userAnswer[0]['word'] != '등록금' and ner_userAnswer[0]['word'] != '백분위' :
-    userResultInfo = pd.read_json(userResultInfo)
+    #userResultInfo = pd.read_json(userResultInfo)
     userResultInfo = userResultInfo.sort_values('백분위')
   else :
-    userResultInfo = pd.read_json(userResultInfo)
+    #userResultInfo = pd.read_json(userResultInfo)
     userResultInfo = userResultInfo.sort_values(ner_userAnswer[0]['word'])
 
   userResultInfo = userResultInfo.drop_duplicates()
-  userResultInfo = userResultInfo.head()
-  userResultInfo = userResultInfo.to_json(orient='records')
+  data = userResultInfo.head()
+  data = data.to_json(orient='records')
 
-  return JsonResponse(userResultInfo, safe=False)
+  return JsonResponse(data, safe=False)
