@@ -1,0 +1,613 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+{% comment %} {{ data }} {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+	</head>
+  <style>
+    body,html{
+			height: 100%;
+			margin: 0;
+			background: #7F7FD5;
+	       background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+	        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+		}
+
+		.chat{
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		.card{
+			height: 500px;
+			border-radius: 15px !important;
+			background-color: rgba(0,0,0,0.4) !important;
+		}
+		.contacts_body{
+			padding:  0.75rem 0 !important;
+			overflow-y: auto;
+			white-space: nowrap;
+		}
+		.msg_card_body{
+			overflow-y: auto;
+		}
+		.card-header{
+			border-radius: 15px 15px 0 0 !important;
+			border-bottom: 0 !important;
+		}
+	 .card-footer{
+		border-radius: 0 0 15px 15px !important;
+			border-top: 0 !important;
+	}
+		.container{
+			align-content: center;
+		}
+		.search{
+			border-radius: 15px 0 0 15px !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+		}
+		.search:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.type_msg{
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+			height: 60px !important;
+			overflow-y: auto;
+		}
+			.type_msg:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.attach_btn{
+	border-radius: 15px 0 0 15px !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.send_btn{
+	border-radius: 0 15px 15px 0 !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.search_btn{
+			border-radius: 0 15px 15px 0 !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.contacts{
+			list-style: none;
+			padding: 0;
+		}
+		.contacts li{
+			width: 100% !important;
+			padding: 5px 10px;
+			margin-bottom: 15px !important;
+		}
+	.active{
+			background-color: rgba(0,0,0,0.3);
+	}
+		.user_img{
+			height: 70px;
+			width: 70px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+		.user_img_msg{
+			height: 40px;
+			width: 40px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+	.img_cont{
+			position: relative;
+			height: 70px;
+			width: 70px;
+	}
+	.img_cont_msg{
+			height: 40px;
+			width: 40px;
+	}
+	.online_icon{
+		position: absolute;
+		height: 15px;
+		width:15px;
+		background-color: #4cd137;
+		border-radius: 50%;
+		bottom: 0.2em;
+		right: 0.4em;
+		border:1.5px solid white;
+	}
+	.offline{
+		background-color: #c23616 !important;
+	}
+	.user_info{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 15px;
+	}
+	.user_info span{
+		font-size: 20px;
+		color: white;
+	}
+	.user_info p{
+	font-size: 10px;
+	color: rgba(255,255,255,0.6);
+	}
+	.video_cam{
+		margin-left: 50px;
+		margin-top: 5px;
+	}
+	.video_cam span{
+		color: white;
+		font-size: 20px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+	.msg_cotainer{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 10px;
+		border-radius: 25px;
+		background-color: #82ccdd;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_cotainer_send{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-right: 10px;
+		border-radius: 25px;
+		background-color: #78e08f;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_time{
+		position: absolute;
+		left: 0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_time_send{
+		position: absolute;
+		right:0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_head{
+		position: relative;
+	}
+	#action_menu_btn{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+	}
+	.action_menu{
+		z-index: 1;
+		position: absolute;
+		padding: 15px 0;
+		background-color: rgba(0,0,0,0.5);
+		color: white;
+		border-radius: 15px;
+		top: 30px;
+		right: 15px;
+		display: none;
+	}
+	.action_menu ul{
+		list-style: none;
+		padding: 0;
+	margin: 0;
+	}
+	.action_menu ul li{
+		width: 100%;
+		padding: 10px 15px;
+		margin-bottom: 5px;
+	}
+	.action_menu ul li i{
+		padding-right: 10px;
+	
+	}
+	.action_menu ul li:hover{
+		cursor: pointer;
+		background-color: rgba(0,0,0,0.2);
+	}
+	@media(max-width: 576px){
+	.contacts_card{
+		margin-bottom: 15px !important;
+	}
+	}
+  </style>
+
+
+
+
+
+	<!--Coded With Love By Mutiullah Samim-->
+	<body>
+		<div class="container-fluid h-100">
+			<div class="row justify-content-center h-100">
+				<div class="col-md-8 col-xl-6 chat">
+					<div class="card">
+
+						<form>
+							<input type="hidden" id="count" value={{count}}>
+						</form>
+
+						<div class="card-body msg_card_body" name="chatBotMsg">
+						</div>
+						
+						<div class="card-footer">
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+								</div>
+								<textarea id="userMsg" class="form-control type_msg" placeholder="답변을 입력해주세요"></textarea>
+
+								<div class="input-group-append" onclick="userSendBtn()" id="clickSend"> 
+									<span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+		if($('#count').val() == 1){
+
+			var startMsgName = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">🌟환영합니다! 입시전문간 챗봇 유니입니다🌟</div></div>';
+			var startMsgSj = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">학업, 진로, 대학 선택 등 어떤 주제이든 자유롭게 이야기해주시면 최적의 대학 전공을 추천해드릴게요 ! 🗯️✨</div></div>';
+			var startMsgQt = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">원하는 전공을 선택하셨나요 ? (네/아니요) 🗯️✨</div></div>';
+	
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(startMsgName);
+			}, 1000);
+	
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(startMsgSj);
+			}, 2000);
+	
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(startMsgQt);
+			}, 3000);
+		}else if($('#count').val() == 2){
+			//document.getElementById("clickSend").onclick = null;
+			//scoreFn();
+		}
+		
+
+	  });
+
+	function userSendBtn(){
+		userMsg = $('#userMsg').val();
+		userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+		$('div[name=chatBotMsg]').append(userMsgHtml);
+		
+		$('#userMsg').val('');
+
+		var xhr = new XMLHttpRequest();
+
+		if(userMsg == "네"){
+
+			var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">어머 그래요 ? 😮</div></div>';
+			var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">그럼 어느 학과를 생각하고 계시나요 ? 😮</div></div>';
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg1);
+			}, 500);
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg2);
+			}, 1500);
+			
+			document.getElementById("clickSend").onclick = null;
+
+			$('#clickSend').click(function(){
+				userMsg = $('#userMsg').val();
+				userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+				$('div[name=chatBotMsg]').append(userMsgHtml);
+				$('#userMsg').val('');
+
+				$.ajax({
+					type: "GET",
+					url: "/yesAnswerFn/",
+					data: {
+						userMsg: userMsg,
+					},
+					success: function (data) {
+						scoreFn()
+					}
+				});
+			})
+		}else if(userMsg == "아니요"){
+			var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">그렇군요. 고민이 많으시겠어요.😭</div></div>';
+			var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">그럼 평소에 좋아하는 과목이 있으신가요? ⭐</div></div>';
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg1);
+			}, 500);
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg2);
+			}, 1500);
+
+			document.getElementById("clickSend").onclick = null;
+
+			$('#clickSend').click(function(){
+				userMsg = $('#userMsg').val();
+				userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+				$('div[name=chatBotMsg]').append(userMsgHtml);
+				$('#userMsg').val('');
+
+				$.ajax({
+					type: "GET",
+					url: "/likeQuestion/",
+					data: {
+						userMsg: userMsg,
+					},
+					success: function (data) {
+						var jsonData = JSON.parse(data);
+						likeTwoFn(jsonData)
+					}
+				});
+			})
+		}else{
+			var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">최적의 대학을 추천해드리기 위해서는 정확한 답변이 필요해요 😡</div></div>';
+			var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">F5를 눌러 프로그램을 다시 시작해주세요 😡</div></div>';
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg1);
+			}, 500);
+			setTimeout(function() {
+				$('div[name=chatBotMsg]').append(msg2);
+			}, 1500);
+		}
+       
+    }
+
+	function scoreFn(){
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">이제 학생의 성적에 맞춰 학교를 추천해줄게요 😊</div></div>';
+		var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">학생의 백분위를 알려주세요 😊</div></div>';
+		$('div[name=chatBotMsg]').append(msg1);
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg2);
+		}, 500);
+
+		
+		$("#clickSend").off("click").on('click', function() {
+			userMsg = $('#userMsg').val();
+			userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+			$('div[name=chatBotMsg]').append(userMsgHtml);
+			$('#userMsg').val('');
+
+			$.ajax({
+				type: "GET",
+				url: "/scoreFn/",
+				data: {
+					userMsg: userMsg,
+				},
+				success: function (data) {
+					moneyFn()
+				}
+			});
+		});
+
+		
+	}
+
+
+	function moneyFn(){
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">마지막으로 학생은 얼마의 등록금을 생각하고 계시나요 ? 😊</div></div>';
+		var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">등록금은 000만원 이하/이상/초과/미만으로 작성해주세요 😊</div></div>';
+		$('div[name=chatBotMsg]').append(msg1);
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg2);
+		}, 500);
+
+		
+		$("#clickSend").off("click").on('click', function() {
+			userMsg = $('#userMsg').val();
+			userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+			$('div[name=chatBotMsg]').append(userMsgHtml);
+			$('#userMsg').val('');
+
+			$.ajax({
+				type: "GET",
+				url: "/moneyFn/",
+				data: {
+					userMsg: userMsg,
+				},
+				success: function (data) {
+
+					var jsonData = JSON.parse(data);
+					console.log(jsonData);
+
+					var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">집과 가까운 학교를 선호하시나요 ? (네/아니요) 🗯️✨</div></div>';
+					$('div[name=chatBotMsg]').append(msg1);
+					
+					$("#clickSend").off("click").on('click', function() {
+						userMsg = $('#userMsg').val();
+						userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+						$('div[name=chatBotMsg]').append(userMsgHtml);
+						$('#userMsg').val('')
+			
+						if(userMsg == '네'){
+							var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">원하는 지역을 도단위로 하나만 말해주세요 ! 😊</div></div>';
+							$('div[name=chatBotMsg]').append(msg1);
+
+							localAnswerFn();
+
+						}else if(userMsg == '아니요'){
+							if(jsonData.length < 6){
+								resultUni(jsonData)
+							}else{
+								orderbyResult()
+							}
+						}else{
+							var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">최적의 대학을 추천해드리기 위해서는 정확한 답변이 필요해요 😡</div></div>';
+							var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">F5를 눌러 프로그램을 다시 시작해주세요 😡</div></div>';
+							setTimeout(function() {
+								$('div[name=chatBotMsg]').append(msg1);
+							}, 500);
+							setTimeout(function() {
+								$('div[name=chatBotMsg]').append(msg2);
+							}, 1500);
+						}
+					});
+				}
+			});
+		});
+	}
+		
+	
+	function localAnswerFn(){
+		$("#clickSend").off("click").on('click', function() {
+			userMsg = $('#userMsg').val();
+			userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+			$('div[name=chatBotMsg]').append(userMsgHtml);
+			$('#userMsg').val('');
+
+			$.ajax({
+				type: "GET",
+				url: "/localFn/",
+				data: {
+					userMsg: userMsg,
+				},
+				success: function (data) {
+					var jsonData = JSON.parse(data);
+					console.log(jsonData);
+
+					if(jsonData.length < 6){
+						resultUni(jsonData)
+					}else{
+						orderbyResult()
+					}
+					
+				}
+			});
+		});
+	}
+
+	function resultUni(jsonData){
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">✨ 유니가 추천하는 대학은 ✨</div></div>';
+		$('div[name=chatBotMsg]').append(msg1);
+
+		for(var i=0; i<jsonData.length; i++){
+			var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">'+ jsonData[i]['학교'] + '의 ' + jsonData[i]['학과'] +'</div></div>';
+			$('div[name=chatBotMsg]').append(msg1);
+		}
+
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">✨ 입니다 ! ✨</div></div>';
+		$('div[name=chatBotMsg]').append(msg1);
+
+	}
+
+	function likeTwoFn(jsonData){
+
+		var subKind = "";
+		for(var i=0; i<jsonData.length; i++){
+			if(i+1 == jsonData.length){
+				subKind = subKind + jsonData[i]
+			}else{
+				subKind = subKind + jsonData[i] + ", ";
+			}
+		}
+
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">아! ' + subKind + ' 을(를) 좋아하는군요. 😆</div></div>';
+		var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">과목 말고도 평소에 좋아하는 것도 알려주세요! 😆</div></div>';
+		var msg3 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">글쓰기나 축구처럼 하나만 말해주세요! 😆</div></div>';
+		$('div[name=chatBotMsg]').append(msg1);
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg2);
+		}, 500);
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg3);
+		}, 1000);
+
+		document.getElementById("clickSend").onclick = null;
+
+		$("#clickSend").off("click").on('click', function() {
+			userMsg = $('#userMsg').val();
+			userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+			$('div[name=chatBotMsg]').append(userMsgHtml);
+			$('#userMsg').val('');
+
+			$.ajax({
+				type: "GET",
+				url: "/hobbyFn/",
+				data: {
+					userMsg: userMsg,
+				},
+				success: function (data) {
+					scoreFn()
+				}
+			});
+		})
+	}
+
+
+	function orderbyResult(){
+		var msg1 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">어떤 조건으로 정렬해서 보여드릴까요 ? 😊</div></div>';
+		var msg2 = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">등록금 / 백분위 둘 중 하나 골라주세요 😊</div></div>';
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg1);
+		}, 500);
+		setTimeout(function() {
+			$('div[name=chatBotMsg]').append(msg2);
+		}, 1500);
+
+		$("#clickSend").off("click").on('click', function() {
+			userMsg = $('#userMsg').val();
+			userMsgHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">'+userMsg+'</div></div>'
+			$('div[name=chatBotMsg]').append(userMsgHtml);
+			$('#userMsg').val('');
+
+			$.ajax({
+				type: "GET",
+				url: "/orderByFn/",
+				data: {
+					userMsg: userMsg,
+				},
+				success: function (data) {
+					var jsonData = JSON.parse(data);
+					console.log(jsonData);
+					resultUni(jsonData);
+				}
+			});
+		})
+
+	}
+</script>
+
+
+
